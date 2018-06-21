@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from . import serializers
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,8 +8,12 @@ from users.models import User
 
 
 class UserView(CreateAPIView):
-    '''用户注册'''
-    pass
+    '''
+    用户注册
+    传入参数：
+        username, password, password2, sms_code, mobile, allow
+    '''
+    serializer_class = serializers.CreateUserSerializer
 
 
 
