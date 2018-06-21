@@ -20,6 +20,10 @@ class ImageCodeCheckSerializer(serializers.Serializer):
         if not real_image_code_text:
             raise serializers.ValidationError('图片验证码无效')
 
+        # 删除redis中的图片验证码
+        # 为了只比较一次,所以要先删除redis中的验证码,即使输入错误,下次会获取新的验证码
+        redis_conn.delete('img_%s' % image_code_id)
+
         # 比较图片验证码
         real_image_code_text = real_image_code_text.decode()
         if real_image_code_text.lower() != text.lower():
