@@ -55,6 +55,7 @@ var vm = new Vue({
             // 设置页面中图片验证码img标签的src属性
             this.image_code_url = this.host + "/image_codes/" + this.image_code_id + "/";
         },
+        //检查用户名
         check_username: function (){
             var len = this.username.length;
             if(len<5||len>20) {
@@ -65,12 +66,32 @@ var vm = new Vue({
             }
 
         },
+        //检查重名
+
         check_pwd: function (){
             var len = this.password.length;
             if(len<8||len>20){
                 this.error_password = true;
             } else {
                 this.error_password = false;
+            }
+
+            //检查重名
+            if (this.error_name == false) {
+                axios.get(this.host + '/usernames/' + this.username + '/count/', {
+                        responseType: 'json'
+                    })
+                    .then(response => {
+                        if (response.data.count > 0) {
+                            this.error_name_message = '用户名已存在';
+                            this.error_name = true;
+                        } else {
+                            this.error_name = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.response.data);
+                    })
             }
         },
         check_cpwd: function (){
