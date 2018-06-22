@@ -214,6 +214,8 @@ var vm = new Vue({
 
             if(this.error_name == false && this.error_password == false && this.error_check_password == false
                 && this.error_phone == false && this.error_sms_code == false && this.error_allow == false) {
+
+                // post:(请求路径,请求体数据,后端返回数据格式)
                 axios.post(this.host + '/users/', {
                         username: this.username,
                         password: this.password,
