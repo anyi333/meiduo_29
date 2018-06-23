@@ -77,7 +77,7 @@ class OAuthQQ(object):
             raise OAuthQQAPIError
         else:
             access_token = response_dict.get('access_token', None)
-            return access_token
+            return access_token[0]
 
     def get_openid(self,access_token):
         '''
