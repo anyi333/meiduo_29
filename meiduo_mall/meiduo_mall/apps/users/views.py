@@ -1,5 +1,7 @@
+from rest_framework.permissions import IsAuthenticated
+
 from . import serializers
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,8 +16,6 @@ class UserView(CreateAPIView):
         username, password, password2, sms_code, mobile, allow
     '''
     serializer_class = serializers.CreateUserSerializer
-
-
 
 class MobileCountView(APIView):
     '''手机号数量'''
@@ -44,6 +44,15 @@ class UsernameCountView(APIView):
         }
 
         return Response(data)
+
+class UserDetailView(RetrieveAPIView):
+    '''用户详情'''
+    serializer_class = serializers.UserDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
 
 
 
