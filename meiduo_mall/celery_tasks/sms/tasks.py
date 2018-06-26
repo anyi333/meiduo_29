@@ -1,6 +1,6 @@
 # _*_ coding:utf-8 _*_
 import logging
-from celery_tasks.main import app
+from celery_tasks.main import celery_app
 from .utils.yuntongxun.sms import CCP
 
 logger = logging.getLogger("django")
@@ -8,7 +8,7 @@ logger = logging.getLogger("django")
 # 验证码短信模板
 SMS_CODE_TEMP_ID = 1
 
-@app.task(name='send_sms_code')
+@celery_app.task(name='send_sms_code')
 def send_sms_code(mobile, sms_code, expires, SMS_CODE_TEMP_ID):
     """
     发送短信验证码
@@ -17,7 +17,6 @@ def send_sms_code(mobile, sms_code, expires, SMS_CODE_TEMP_ID):
     :param expires: 有效期
     :return: None
     """
-
     try:
         ccp = CCP()
         result = ccp.send_template_sms(mobile, [sms_code , expires], SMS_CODE_TEMP_ID)
